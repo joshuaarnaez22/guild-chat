@@ -1,5 +1,5 @@
 import { userProfile, userServers } from "@/lib/profile";
-import SidebarNavigation from "./server/_components/sidebar-navigation";
+import SidebarNavigation from "./servers/_components/sidebar-navigation";
 import { redirect } from "next/navigation";
 
 export default async function MainLayout({
