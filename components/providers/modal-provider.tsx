@@ -1,7 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import SetupServerModal from "../shared/modals/setup-server-modal";
-SetupServerModal;
+import InviteModal from "../shared/modals/invite-modal";
+import ServerSettings from "../shared/modals/server-settings-modal";
+import MembersModal from "../shared/modals/members-modal";
+import CreateChannelModal from "../shared/modals/create-channel-modal";
+import DeleteServerModal from "../shared/modals/delete-server-modal";
+import LeaverServerModal from "../shared/modals/leave-server-modal";
+
 const ModalProvider = () => {
   const [mounted, setMounted] = useState(false);
 
@@ -13,6 +19,12 @@ const ModalProvider = () => {
   return (
     <>
       <SetupServerModal />
+      <InviteModal />
+      <ServerSettings />
+      <MembersModal />
+      <CreateChannelModal />
+      <DeleteServerModal />
+      <LeaverServerModal />
     </>
   );
 };

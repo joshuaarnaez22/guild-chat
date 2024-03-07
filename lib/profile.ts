@@ -30,34 +30,6 @@ export const userProfile = async () => {
   return newProfile;
 };
 
-export const userServer = async (id: string) => {
-  const server = await prisma.server.findFirst({
-    where: {
-      members: {
-        some: {
-          profileId: id,
-        },
-      },
-    },
-  });
-
-  return server;
-};
-
-export const userServers = async (id: string) => {
-  const server = await prisma.server.findMany({
-    where: {
-      members: {
-        some: {
-          profileId: id,
-        },
-      },
-    },
-  });
-
-  return server;
-};
-
 export const signedInProfile = async () => {
   const { userId } = await auth();
 

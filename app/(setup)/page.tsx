@@ -1,5 +1,6 @@
-import SetupServerModal from "@/components/shared/modals/setup-server-modal";
-import { userProfile, userServer } from "@/lib/profile";
+import InitialModal from "@/components/shared/modals/initial-modal";
+import { userProfile } from "@/lib/profile";
+import { userServer } from "@/lib/server";
 import { redirect } from "next/navigation";
 
 const SetupPage = async () => {
@@ -12,7 +13,7 @@ const SetupPage = async () => {
 
   return (
     <div>
-      <SetupServerModal />
+      <InitialModal />
     </div>
   );
 };

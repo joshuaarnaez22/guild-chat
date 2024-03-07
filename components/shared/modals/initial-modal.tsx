@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { createServer } from "@/actions/server";
 import toast from "react-hot-toast";
 import { useModal } from "@/store/use-modal-store";
@@ -36,11 +36,10 @@ const formSchema = z.object({
   }),
 });
 
-const SetupServerModal = () => {
+const InitialModal = () => {
   const [isPending, startTransition] = useTransition();
-  const { isOpen, onClose, type } = useModal();
-
-  const isModalOpen = isOpen && type === "createServer";
+  const [mounted, setMounted] = useState(false);
+  const { onClose } = useModal();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -66,8 +65,16 @@ const SetupServerModal = () => {
     form.reset();
     onClose();
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
   return (
-    <Dialog open={isModalOpen} onOpenChange={handleClose}>
+    <Dialog open onOpenChange={handleClose}>
       <DialogContent className=" bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl font-bold text-center">
@@ -140,4 +147,4 @@ const SetupServerModal = () => {
   );
 };
 
-export default SetupServerModal;
+export default InitialModal;

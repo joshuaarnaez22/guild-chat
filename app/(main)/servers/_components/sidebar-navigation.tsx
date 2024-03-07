@@ -13,7 +13,14 @@ interface SidebarNavigationProps {
   servers: Server[];
 }
 
-const SidebarNavigation = ({ servers }: SidebarNavigationProps) => {
+const SidebarNavigation = async ({ servers }: SidebarNavigationProps) => {
+  //for testing loading suspense
+  // await new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(true); // Fixed this line, added parentheses to invoke the function
+  //   }, 5000);
+  // });
+
   return (
     <div className=" space-y-4 flex flex-col h-full items-center w-full text-primary dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <NavigationAction />

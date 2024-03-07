@@ -22,8 +22,8 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useTransition } from "react";
-import { createServer } from "@/actions/server";
+import { useEffect, useTransition } from "react";
+import { updateServer } from "@/actions/server";
 import toast from "react-hot-toast";
 import { useModal } from "@/store/use-modal-store";
 
@@ -36,11 +36,11 @@ const formSchema = z.object({
   }),
 });
 
-const SetupServerModal = () => {
+const ServerSettings = () => {
   const [isPending, startTransition] = useTransition();
-  const { isOpen, onClose, type } = useModal();
-
-  const isModalOpen = isOpen && type === "createServer";
+  const { isOpen, onClose, type, data } = useModal();
+  const { server } = data;
+  const isModalOpen = isOpen && type === "editServer";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -53,7 +53,8 @@ const SetupServerModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
       try {
-        await createServer(values);
+        if (!server) return;
+        await updateServer(values, server.id);
         toast.success("Server created");
         form.reset();
         onClose();
@@ -66,6 +67,14 @@ const SetupServerModal = () => {
     form.reset();
     onClose();
   };
+
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [server, form, data]);
+
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className=" bg-white text-black p-0 overflow-hidden">
@@ -130,7 +139,7 @@ const SetupServerModal = () => {
                 className="w-full"
                 disabled={isPending}
               >
-                Create
+                Update
               </Button>
             </DialogFooter>
           </form>
@@ -140,4 +149,4 @@ const SetupServerModal = () => {
   );
 };
 
-export default SetupServerModal;
+export default ServerSettings;
