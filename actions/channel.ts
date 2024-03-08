@@ -12,6 +12,7 @@ interface createChannelPayload {
   type: ChannelType;
   serverId: string;
 }
+
 export const createChannel = async ({
   name,
   type,
@@ -19,7 +20,7 @@ export const createChannel = async ({
 }: createChannelPayload) => {
   const user = await signedInProfile();
 
-  const server = await prisma.server.update({
+  await prisma.server.update({
     where: {
       id: serverId,
       members: {
@@ -39,6 +40,48 @@ export const createChannel = async ({
           type,
         },
       },
+    },
+  });
+
+  return revalidateTag("/");
+};
+
+export const deleteChannel = async (channelId: string) => {
+  const user = await signedInProfile();
+
+  await prisma.channel.delete({
+    where: {
+      id: channelId,
+      profileId: user.id,
+    },
+  });
+
+  return revalidateTag("/");
+};
+
+export const updateChannel = async ({
+  channelId,
+  name,
+  type,
+}: {
+  channelId: string;
+  name: string;
+  type: ChannelType;
+}) => {
+  const user = await signedInProfile();
+
+  if (name === "general") {
+    throw new Error(`general channel name is invalid`);
+  }
+
+  await prisma.channel.update({
+    where: {
+      id: channelId,
+      profileId: user.id,
+    },
+    data: {
+      name,
+      type,
     },
   });
 

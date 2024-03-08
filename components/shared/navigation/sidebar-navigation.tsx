@@ -8,19 +8,22 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import NavigationItem from "./navigation-item";
 import { ModeToggle } from "@/components/shared/mode-toogle";
+import { userProfile } from "@/lib/profile";
+import { redirect } from "next/navigation";
+import { userServers } from "@/lib/server";
 
-interface SidebarNavigationProps {
-  servers: Server[];
-}
+const SidebarNavigation = async () => {
+  const profile = await userProfile();
 
-const SidebarNavigation = async ({ servers }: SidebarNavigationProps) => {
-  //for testing loading suspense
-  // await new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve(true); // Fixed this line, added parentheses to invoke the function
-  //   }, 5000);
-  // });
+  if (!profile) {
+    return redirect("/");
+  }
 
+  const servers = await userServers(profile.id);
+
+  if (!servers.length) {
+    return redirect("/");
+  }
   return (
     <div className=" space-y-4 flex flex-col h-full items-center w-full text-primary dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <NavigationAction />

@@ -32,8 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createChannel } from "@/actions/channel";
-import { useParams } from "next/navigation";
+import { updateChannel } from "@/actions/channel";
 
 const formSchema = z.object({
   name: z
@@ -47,31 +46,30 @@ const formSchema = z.object({
   type: z.nativeEnum(ChannelType),
 });
 
-const CreateChannelModal = () => {
-  const params = useParams();
+const EditChannel = () => {
   const [isPending, startTransition] = useTransition();
   const { isOpen, onClose, type, data } = useModal();
-  const { channelType } = data;
+  const { channel } = data;
 
-  const isModalOpen = isOpen && type === "createChannel";
+  const isModalOpen = isOpen && type === "editChannel";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: channelType || ChannelType.TEXT,
+      type: channel?.type || ChannelType.TEXT,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
       try {
-        if (!params.serverId) return;
-        await createChannel({
+        if (!channel) return;
+        await updateChannel({
           ...values,
-          serverId: params.serverId as string,
+          channelId: channel.id,
         });
-        toast.success("Channel created");
+        toast.success("Channel updated successfully");
         form.reset();
         onClose();
       } catch (error: any) {
@@ -85,12 +83,11 @@ const CreateChannelModal = () => {
   };
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
-    } else {
-      form.setValue("type", ChannelType.TEXT);
+    if (channel) {
+      form.setValue("name", channel.name);
+      form.setValue("type", channel.type);
     }
-  }, [channelType, form]);
+  }, [form, channel]);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
@@ -167,7 +164,7 @@ const CreateChannelModal = () => {
                 className="w-full"
                 disabled={isPending}
               >
-                Create
+                Update
               </Button>
             </DialogFooter>
           </form>
@@ -177,4 +174,4 @@ const CreateChannelModal = () => {
   );
 };
 
-export default CreateChannelModal;
+export default EditChannel;

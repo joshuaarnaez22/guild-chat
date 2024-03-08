@@ -86,9 +86,9 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
                     onSelect={() => handelSelect({ id, type })}
                   >
                     {icon}{" "}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col ml-1">
                       <span className=" font-semibold">{name}</span>
-                      <span className=" text-muted-foreground text-xs">
+                      <span className=" text-muted-foreground text-[12px]">
                         {email}
                       </span>
                     </div>

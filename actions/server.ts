@@ -19,7 +19,7 @@ export const createServer = async ({ name, imageUrl }: ServerPayload) => {
         imageUrl,
         inviteCode: uuidv4(),
         channels: {
-          create: [{ name: "General", profileId: user.id }],
+          create: [{ name: "general", profileId: user.id }],
         },
         members: {
           create: [{ profileId: user.id, role: MemberRole.ADMIN }],

@@ -1,7 +1,7 @@
+import ServerSideBar from "@/components/shared/server/server-sidebar";
 import { userProfile } from "@/lib/profile";
 import { getServerById } from "@/lib/server";
 import { redirect } from "next/navigation";
-import ServerSideBar from "./_components/server-sidebar";
 
 export default async function ServerIdLayout({
   children,
@@ -25,7 +25,7 @@ export default async function ServerIdLayout({
   return (
     <div className="h-full">
       <div className="hidden md:flex z-20 flex-col w-60 fixed inset-y-0 h-full ">
-        <ServerSideBar serverId={params.serverId} profileId={profile.id} />
+        <ServerSideBar serverId={params.serverId} />
       </div>
       <main className="md:pl-60 h-full">{children}</main>
     </div>

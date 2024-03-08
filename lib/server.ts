@@ -68,3 +68,27 @@ export const getServerDataById = async (serverId: string) => {
   });
   return server;
 };
+
+export const getGeneralChannel = async (serverId: string) => {
+  const user = await signedInProfile();
+
+  const server = await prisma.server.findUnique({
+    where: {
+      id: serverId,
+      members: {
+        some: {
+          profileId: user.id,
+        },
+      },
+    },
+    include: {
+      channels: {
+        where: {
+          name: "general",
+        },
+      },
+    },
+  });
+
+  return server?.channels[0];
+};

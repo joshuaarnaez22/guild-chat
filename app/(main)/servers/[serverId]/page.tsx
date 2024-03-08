@@ -1,7 +1,17 @@
-import React from "react";
+import { getGeneralChannel } from "@/lib/server";
+import { redirect } from "next/navigation";
 
-const ServerPage = async () => {
-  return <div>ServerPage</div>;
+interface ServerIdPageProps {
+  params: {
+    serverId: string;
+  };
+}
+const ServerIdPage = async ({ params }: ServerIdPageProps) => {
+  const channel = await getGeneralChannel(params.serverId);
+
+  if (channel?.name !== "general") return null;
+
+  return redirect(`/servers/${params.serverId}/channels/${channel.id}`);
 };
 
-export default ServerPage;
+export default ServerIdPage;
