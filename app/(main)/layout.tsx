@@ -1,7 +1,4 @@
-import { userProfile } from "@/lib/profile";
 import SidebarNavigation from "../../components/shared/navigation/sidebar-navigation";
-import { redirect } from "next/navigation";
-import { userServers } from "@/lib/server";
 import { Suspense } from "react";
 import { SidenavSkeleton } from "@/components/shared/loaders/sidenav-skeleton";
 
