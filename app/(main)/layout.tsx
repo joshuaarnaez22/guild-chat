@@ -9,7 +9,7 @@ export default async function MainLayout({
 }>) {
   return (
     <div className="h-full">
-      <div className="hidden md:flex z-30 flex-col w-[80px] fixed inset-y-0 h-full ">
+      <div className="hidden md:flex flex-col w-[80px] fixed inset-y-0 h-full ">
         <Suspense fallback={<SidenavSkeleton />}>
           <SidebarNavigation />
         </Suspense>

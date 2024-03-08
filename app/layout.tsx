@@ -4,8 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { neobrutalism } from "@clerk/themes";
 import { Toaster } from "react-hot-toast";
-import HolyLoader from "holy-loader";
-
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
@@ -37,7 +36,7 @@ export default function RootLayout({
             enableSystem
             storageKey="guild-chat-theme"
           >
-            <HolyLoader easing="linear" showSpinner zIndex={9999999999} />
+            <NextTopLoader />
             <Toaster position="top-right" />
             <ModalProvider />
             {children}
