@@ -14,6 +14,9 @@ export default async function ServerIdLayout({
 }>) {
   const profile = await userProfile();
 
+  if (!profile) {
+    return redirect("/");
+  }
   const server = await getServerById(params.serverId, profile.id);
 
   if (!server) {

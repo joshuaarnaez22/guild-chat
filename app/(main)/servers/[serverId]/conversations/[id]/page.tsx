@@ -13,7 +13,9 @@ interface ConversationsIdPageProps {
 }
 const ConversationsIdPage = async ({ params }: ConversationsIdPageProps) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   const currentMember = await getMember(user.id, params.serverId);
 
   if (!currentMember) {

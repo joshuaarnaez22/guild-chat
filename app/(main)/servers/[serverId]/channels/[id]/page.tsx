@@ -13,7 +13,9 @@ interface ChannelsIdPageProps {
 }
 const ChannelsIdPage = async ({ params }: ChannelsIdPageProps) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   const [channel, member] = await Promise.all([
     getChannel(params.id),
     getMember(user.id, params.serverId),

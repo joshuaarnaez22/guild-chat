@@ -1,3 +1,4 @@
+import { signedInProfile } from "@/lib/profile";
 import { getGeneralChannel } from "@/lib/server";
 import { redirect } from "next/navigation";
 
@@ -7,7 +8,11 @@ interface ServerIdPageProps {
   };
 }
 const ServerIdPage = async ({ params }: ServerIdPageProps) => {
-  const channel = await getGeneralChannel(params.serverId);
+  const user = await signedInProfile();
+  if (!user) {
+    redirect("/");
+  }
+  const channel = await getGeneralChannel(user.id, params.serverId);
 
   if (channel?.name !== "general") return null;
 

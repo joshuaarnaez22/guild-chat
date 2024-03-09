@@ -5,7 +5,7 @@ export const userProfile = async () => {
   const user = await currentUser();
 
   if (!user) {
-    return redirectToSignIn();
+    return null;
   }
 
   const profile = await prisma.profile.findUnique({
@@ -34,7 +34,7 @@ export const signedInProfile = async () => {
   const { userId } = await auth();
 
   if (!userId) {
-    return redirectToSignIn();
+    return null;
   }
   const profile = await prisma.profile.findUnique({
     where: {

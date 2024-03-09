@@ -75,7 +75,10 @@ const InitialModal = () => {
   }
   return (
     <Dialog open onOpenChange={handleClose}>
-      <DialogContent className=" bg-white text-black p-0 overflow-hidden">
+      <DialogContent
+        className=" bg-white text-black p-0 overflow-hidden"
+        showClose={false}
+      >
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl font-bold text-center">
             Customize your server

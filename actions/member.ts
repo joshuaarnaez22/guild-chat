@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { signedInProfile } from "@/lib/profile";
 import { MemberRole } from "@prisma/client";
 import { revalidateTag } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export const updateMemberRole = async (
   role: string,
@@ -11,7 +11,9 @@ export const updateMemberRole = async (
   serverId: string
 ) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   const server = await prisma.server.update({
     where: {
       id: serverId,
@@ -55,7 +57,9 @@ export const kickMemberfromServer = async (
   serverId: string
 ) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   const server = await prisma.server.update({
     where: {
       id: serverId,

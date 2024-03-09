@@ -1,4 +1,3 @@
-import { currentUser } from "@clerk/nextjs";
 import { prisma } from "./prisma";
 import { signedInProfile } from "./profile";
 
@@ -69,15 +68,13 @@ export const getServerDataById = async (serverId: string) => {
   return server;
 };
 
-export const getGeneralChannel = async (serverId: string) => {
-  const user = await signedInProfile();
-
+export const getGeneralChannel = async (userId: string, serverId: string) => {
   const server = await prisma.server.findUnique({
     where: {
       id: serverId,
       members: {
         some: {
-          profileId: user.id,
+          profileId: userId,
         },
       },
     },

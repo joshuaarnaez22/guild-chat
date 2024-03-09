@@ -1,11 +1,9 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { signedInProfile } from "@/lib/profile";
-import { ServerPayload } from "@/type";
-import { redirectToSignIn } from "@clerk/nextjs";
 import { ChannelType, MemberRole } from "@prisma/client";
 import { revalidateTag } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 
 interface createChannelPayload {
   name: string;
@@ -20,6 +18,9 @@ export const createChannel = async ({
 }: createChannelPayload) => {
   const user = await signedInProfile();
 
+  if (!user) {
+    redirect("/");
+  }
   await prisma.server.update({
     where: {
       id: serverId,
@@ -49,6 +50,9 @@ export const createChannel = async ({
 export const deleteChannel = async (channelId: string) => {
   const user = await signedInProfile();
 
+  if (!user) {
+    redirect("/");
+  }
   await prisma.channel.delete({
     where: {
       id: channelId,
@@ -70,6 +74,9 @@ export const updateChannel = async ({
 }) => {
   const user = await signedInProfile();
 
+  if (!user) {
+    redirect("/");
+  }
   if (name === "general") {
     throw new Error(`general channel name is invalid`);
   }

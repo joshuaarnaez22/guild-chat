@@ -11,7 +11,9 @@ import { v4 as uuidv4 } from "uuid";
 export const createServer = async ({ name, imageUrl }: ServerPayload) => {
   try {
     const user = await signedInProfile();
-
+    if (!user) {
+      redirect("/");
+    }
     await prisma.server.create({
       data: {
         profileId: user.id,
@@ -59,7 +61,9 @@ export const updateInviteLink = async (serverId: string) => {
 
 export const leaveServer = async (serverId: string) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   const member = await prisma.server.findFirst({
     where: {
       id: serverId,
@@ -88,7 +92,7 @@ export const serverExist = async (inviteCode: string) => {
   const user = await signedInProfile();
 
   if (!user) {
-    return redirectToSignIn();
+    redirect("/");
   }
   const server = await prisma.server.findUnique({
     where: {
@@ -135,7 +139,7 @@ export const updateServer = async (values: ServerPayload, serverId: string) => {
   const user = await signedInProfile();
 
   if (!user) {
-    return redirectToSignIn();
+    redirect("/");
   }
 
   const server = await prisma.server.update({
@@ -154,7 +158,9 @@ export const updateServer = async (values: ServerPayload, serverId: string) => {
 
 export const deleteServer = async (serverId: string) => {
   const user = await signedInProfile();
-
+  if (!user) {
+    redirect("/");
+  }
   await prisma.server.delete({
     where: {
       id: serverId,

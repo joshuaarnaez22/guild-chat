@@ -5,10 +5,14 @@ import { redirect } from "next/navigation";
 
 const SetupPage = async () => {
   const profile = await userProfile();
+
+  if (!profile) {
+    return redirect("/");
+  }
   const server = await userServer(profile.id);
 
   if (server) {
-    redirect(`servers/${server.id}`);
+    redirect(`/servers/${server.id}`);
   }
 
   return (
