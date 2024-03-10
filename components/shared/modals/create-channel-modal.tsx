@@ -66,7 +66,7 @@ const CreateChannelModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
       try {
-        if (!params.serverId) return;
+        if (!params) return;
         await createChannel({
           ...values,
           serverId: params.serverId as string,

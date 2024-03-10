@@ -20,10 +20,10 @@ const MobileToogle = ({ serverId }: { serverId: string }) => {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="py-0 pl-0 flex gap-0 w-fit pr-4"
+        className="p-0 flex gap-0 w-fit"
         showClose={false}
       >
-        <div className="w-[72px]">
+        <div className="w-[72px] ">
           <SidebarNavigation />
         </div>
         <ServerSideBar serverId={serverId} />

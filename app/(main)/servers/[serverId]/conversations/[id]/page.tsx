@@ -1,4 +1,5 @@
 import ChatHeader from "@/components/shared/chat/chat-header";
+import ChatInput from "@/components/shared/chat/chat-input";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { getMember } from "@/lib/member";
 import { signedInProfile } from "@/lib/profile";
@@ -37,6 +38,8 @@ const ConversationsIdPage = async ({ params }: ConversationsIdPageProps) => {
         serverId={params.serverId}
         type="conversation"
       />
+      <div className="flex-1">Future messages</div>
+      {/* <ChatInput /> */}
     </div>
   );
 };

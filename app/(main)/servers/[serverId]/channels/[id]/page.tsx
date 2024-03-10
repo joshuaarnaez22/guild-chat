@@ -4,6 +4,7 @@ import { getChannel } from "@/lib/channel";
 import { getMember } from "@/lib/member";
 import { signedInProfile } from "@/lib/profile";
 import { redirect } from "next/navigation";
+import ChatInput from "@/components/shared/chat/chat-input";
 
 interface ChannelsIdPageProps {
   params: {
@@ -31,6 +32,16 @@ const ChannelsIdPage = async ({ params }: ChannelsIdPageProps) => {
         name={channel.name}
         type="channel"
         serverId={params.serverId}
+      />
+      <div className="flex-1">Future messages</div>
+      <ChatInput
+        apiUrl="/api/socket/messages"
+        query={{
+          channelId: channel.id,
+          serverId: channel.serverId,
+        }}
+        type="channel"
+        name={channel.name}
       />
     </div>
   );

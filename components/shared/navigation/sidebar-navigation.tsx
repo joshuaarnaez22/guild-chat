@@ -1,7 +1,6 @@
 import React from "react";
 import { UserButton } from "@clerk/nextjs";
 
-import { Server } from "@prisma/client";
 import NavigationAction from "./navigation-action";
 
 import { Separator } from "@/components/ui/separator";
@@ -41,14 +40,16 @@ const SidebarNavigation = async () => {
       </ScrollArea>
       <div className="mt-auto pb-3 flex items-center flex-col gap-y-4">
         <ModeToggle />
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-[48px] w-[48px]",
-            },
-          }}
-        />
+        <div className="hidden md:block">
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-[48px] w-[48px]",
+              },
+            }}
+          />
+        </div>
       </div>
     </div>
   );
