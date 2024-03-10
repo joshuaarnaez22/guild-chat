@@ -44,7 +44,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
   console.log(isConnected);
-
+  console.log(process.env.NEXT_PUBLIC_SITE_URL!);
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
       {children}
