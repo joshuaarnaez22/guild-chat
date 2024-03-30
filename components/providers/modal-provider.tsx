@@ -9,6 +9,7 @@ import DeleteServerModal from "../shared/modals/delete-server-modal";
 import LeaverServerModal from "../shared/modals/leave-server-modal";
 import EditChannel from "../shared/modals/edit-channel";
 import DeleteChannelModal from "../shared/modals/delete-channel-modal";
+import MessageFileModal from "../shared/modals/message-file-modal";
 
 const ModalProvider = () => {
   const [mounted, setMounted] = useState(false);
@@ -29,6 +30,7 @@ const ModalProvider = () => {
       <LeaverServerModal />
       <EditChannel />
       <DeleteChannelModal />
+      <MessageFileModal />
     </>
   );
 };
