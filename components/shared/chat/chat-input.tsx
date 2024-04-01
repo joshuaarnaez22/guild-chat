@@ -13,6 +13,8 @@ import EmojiSelector from "../emoji-selector";
 
 import qs from "query-string";
 import axios from "axios";
+import { useModal } from "@/store/use-modal-store";
+import { useRouter } from "next/navigation";
 interface ChatInputProps {
   apiUrl: string;
   query: Record<string, string>;
@@ -25,6 +27,8 @@ const formSchema = z.object({
 });
 
 const ChatInput = ({ apiUrl, query, type, name }: ChatInputProps) => {
+  const router = useRouter();
+  const { onOpen } = useModal();
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,13 +37,18 @@ const ChatInput = ({ apiUrl, query, type, name }: ChatInputProps) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const url = qs.stringifyUrl({
-      query,
-      url: apiUrl,
-    });
-    console.log(url);
+    try {
+      const url = qs.stringifyUrl({
+        query,
+        url: apiUrl,
+      });
 
-    axios.post(url, values);
+      axios.post(url, values);
+      form.reset();
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Form {...form}>
@@ -52,6 +61,7 @@ const ChatInput = ({ apiUrl, query, type, name }: ChatInputProps) => {
               <FormControl>
                 <div className="relative p-4 pb-6">
                   <button
+                    onClick={() => onOpen("messageFile", { apiUrl, query })}
                     type="button"
                     className=" absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center"
                   >
